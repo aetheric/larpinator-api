@@ -1,0 +1,26 @@
+{
+	"name": "larpinator-api",
+	"version": "1.0.0",
+	"description": "The API components for the Larpinator Serverless application.",
+	"main": "config.js",
+	"dependencies": {
+		"aws-xray-sdk": "^2.3.6"
+	},
+	"devDependencies": {
+		"aws-sdk": "^2.541.0",
+		"serverless-bundle": "^1.2.5",
+		"serverless-offline": "^5.12.0"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/aetheric/larpinator-api.git"
+	},
+	"author": "Peter Cummuskey",
+	"bugs": {
+		"url": "https://github.com/aetheric/larpinator-api/issues"
+	},
+	"homepage": "https://github.com/aetheric/larpinator-api#readme"
+}

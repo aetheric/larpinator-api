@@ -1,0 +1,13 @@
+---
+
+custom:
+  stage:          ${opt:stage, self:provider.stage}
+  resourceStages: { dev: dev, prod: prod }
+  resourceStage:  ${self:custom.resourceStages.${self:custom.stage}, self:custom.resourceStages.dev}
+
+lambdaPolicyXRay:
+  Effect: Allow
+  Action:
+    - xray:PutTraceSegments
+    - xray:PutTelemetryRecords
+  Resource: '*'
