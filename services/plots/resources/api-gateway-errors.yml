@@ -1,0 +1,19 @@
+Resources:
+
+  GatewayResponseDefault4XX:
+    Type: AWS::ApiGateway::GatewayResponse
+    Properties:
+      RestApiId:    { Ref: ApiGatewayRestApi }
+      ResponseType: DEFAULT_4XX
+      ResponseParameters:
+        gatewayresponse.header.Access-Control-Allow-Origin:  "'*'"
+        gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+
+  GatewayResponseDefault5XX:
+    Type: AWS::ApiGateway::GatewayResponse
+    Properties:
+      RestApiId:    { Ref: ApiGatewayRestApi }
+      ResponseType: DEFAULT_5XX
+      ResponseParameters:
+        gatewayresponse.header.Access-Control-Allow-Origin:  "'*'"
+        gatewayresponse.header.Access-Control-Allow-Headers: "'*'"

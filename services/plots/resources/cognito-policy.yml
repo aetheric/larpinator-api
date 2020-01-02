@@ -1,0 +1,14 @@
+Resources:
+
+  CognitoAuthorizedApiPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: CognitoAuthorizedApiPolicy-${self:custom.stage}
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect:   Allow
+            Action:   [ 'execute-api:Invoke' ]
+            Resource: { 'Fn::Sub': "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGatewayRestApi}/*" }
+      Roles:
+        - 'Fn::ImportValue': ExtCognitoAuthRole-${self:custom.resourcesStage}
