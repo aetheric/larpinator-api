@@ -1,0 +1,14 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3304,
+  "username": "test",
+  "password": "test",
+  "database": "larp",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": false,
+  "migrations": ["dist/migration/*.js"],
+  "cli": {
+    "migrationsDir": "src/migration"
+  }
+}
