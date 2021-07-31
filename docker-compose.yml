@@ -1,8 +1,8 @@
 version: "3.1"
 services:
   mysql:
-    image: mysql:5.6
-    container_name: laybuy-mysql
+    image: mysql:5.7
+    container_name: larp-mysql
     working_dir: /application
     command: --general-log=1 --general-log-file=/tmp/my.log
     volumes:
@@ -10,115 +10,7 @@ services:
     env_file:
       - .env
     ports:
-      - "3306:3306"
-
-  redis:
-    image: redis:alpine
-    container_name: laybuy-core-redis
-    ports:
-      - 6379:6379
-    environment:
-      - TZ=Pacific/Auckland
-
-  mailcatcher:
-    restart: on-failure:10
-    image: dockage/mailcatcher:0.7.1
-    ports:
-    - "1080:1080"
-    - "1025:1025"
-    environment:
-      - TZ=Pacific/Auckland
-
-  webserver:
-    image: nginx:alpine
-    container_name: laybuy-core-webserver
-    working_dir: /application
-    volumes:
-      - .:/application
-      - ./phpdocker/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./phpdocker/nginx/laybuy-www-dev.conf:/etc/nginx/sites-enabled/www.laybuy.com.conf
-      - ./phpdocker/nginx/laybuy-payment-dev.conf:/etc/nginx/sites-enabled/payment.laybuy.com.conf
-      - ./phpdocker/nginx/laybuy-api-dev.conf:/etc/nginx/sites-enabled/api.laybuy.com.conf
-      - ./phpdocker/nginx/laybuy-docs-dev.conf:/etc/nginx/sites-enabled/docs.laybuy.com.conf
-      - ./phpdocker/nginx/laybuy-manage-dev.conf:/etc/nginx/sites-enabled/manage.laybuy.com.conf
-      - ./phpdocker/nginx/cert.pem:/etc/nginx/conf.d/cert.pem
-      - ./phpdocker/nginx/key.pem:/etc/nginx/conf.d/key.pem
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      default:
-        aliases:
-          - local-api.laybuy.com
-          - local-www.laybuy.com
-          - local-dashboard.laybuy.com
-          - local-manage.laybuy.com
-          - local-payment.laybuy.com
-    depends_on:
-      - php-fpm
-    environment:
-      - TZ=Pacific/Auckland
-
-  php-fpm:
-    build: phpdocker/php-fpm-local
-    container_name: laybuy-core-php-fpm
-    working_dir: /application
-    env_file:
-      - .env
-    volumes:
-      - .:/application
-      - ./phpdocker/php-fpm-local/php-ini-overrides.ini:/etc/php/7.3/cli/conf.d/99-overrides.ini
-      - ./phpdocker/php-fpm-local/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
-      - ./phpdocker/php-fpm-local/xdebug.ini:/etc/php/7.3/fpm/conf.d/25-xdebug.ini
-      - ./phpdocker/php-fpm-local/oauth-public.key:/application/laravel/storage/oauth-public.key
-      - ./phpdocker/php-fpm-local/oauth-private.key:/application/laravel/storage/oauth-private.key
-      - ./phpdocker/php-fpm-local/php-fpm.conf:/etc/php/7.3/fpm/pool.d/z-overrides.conf
-    depends_on:
-      - mysql
-      - redis
-    environment:
-      - TZ=Pacific/Auckland
-
-  queue:
-    build: phpdocker/php-fpm-local
-    working_dir: /application/laravel
-    volumes:
-      - .:/application
-      - ./phpdocker/php-fpm-local/php-ini-overrides.ini:/etc/php/7.3/cli/conf.d/99-overrides.ini
-    env_file:
-      - .env
-    command: ["php", "artisan", "queue:work", "--queue=high,default,medium,payment,payment_notification,low,gamification,segment", "--tries=1"]
-    depends_on:
-      - mysql
-      - redis
-    environment:
-      - TZ=Pacific/Auckland
-
-  minio:
-    image: 'minio/minio'
-    environment:
-      MINIO_ACCESS_KEY: AKIAIOSFODNN7EXAMPLE
-      MINIO_SECRET_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-    volumes:
-      - ./phpdocker/nginx/cert.pem:/root/.minio/certs/public.crt
-      - ./phpdocker/nginx/key.pem:/root/.minio/certs/private.key
-      - ./phpdocker/nginx/cert.pem:/root/.minio/certs/CAs/public.crt
-      - ./phpdocker/nginx/key.pem:/root/.minio/certs/CAs/private.key
-    ports:
-      - "9005:9005"
-    entrypoint: sh
-    command: -c 'mkdir -p /export/customers && mkdir -p /export/dev && mkdir -p /export/test && /usr/bin/minio --compat server /export --address :9005'
-
-  sftp:
-    image: atmoz/sftp
-    volumes:
-      - ./phpdocker/sftp/data:/home/laybuy
-      - ./phpdocker/sftp/id_rsa.pub:/home/laybuy/.ssh/keys/id_rsa.pub:ro
-      - ./phpdocker/sftp/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key
-      - ./phpdocker/sftp/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key
-    ports:
-      - "2222:22"
-    command: laybuy::1001
+      - "3304:3306"
 
 volumes:
   mysql-data:
