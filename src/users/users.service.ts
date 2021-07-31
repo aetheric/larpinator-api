@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { getRepository } from 'typeorm';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -13,7 +15,8 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    const userRepository = getRepository(User);
+    return userRepository.findOne(1);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

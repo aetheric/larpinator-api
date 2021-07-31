@@ -29,6 +29,11 @@ export class UsersTable1627726262946 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'is_active',
+            type: 'boolean',
+            default: true,
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
