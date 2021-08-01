@@ -50,4 +50,8 @@ export class User {
 		name: 'deleted_at',
 	})
 	deletedAt: Date;
+
+	async comparePassword(candidatePassword: string) {
+		return await bcrypt.compare(candidatePassword, this.password);
+	}
 }
