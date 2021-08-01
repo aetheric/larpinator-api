@@ -1,18 +1,11 @@
 {
-	"$id": "https://larpinator.aetheric.co.nz/plot.schema.json",
+	"$id": "https://larpinator.aetheric.co.nz/schema/plot.schema.json",
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"title": "Plot",
-	"type": "object",
-	"required": [
-		"title",
-		"updates"
+	"allOf": [
+		{ "$ref": "./_common.schema.json#/definitions/entity" }
 	],
 	"properties": {
-
-		"title": {
-			"description": "The name of the plot.",
-			"type": "string"
-		},
 
 		"priority": {
 			"description": "How important that this plot be completed.",
@@ -44,197 +37,160 @@
 			"description": "The goals for running the plot.",
 			"type": "array",
 			"minItems": 1,
-			"items": {
-				"type": "object",
-				"required": [
-					"description"
-				],
-				"properties": {
-
-					"description": {
-						"description": "A description of the objective.",
-						"type": "string",
-						"minLength": 1
-					},
-
-					"tags": {
-						"description": "A list of topic tags.",
-						"type": "array",
-						"items": {
-							"type": "string"
-						}
-					}
-
-				}
-			}
+			"items": { "$ref": "#/definitions/objective" }
 		},
 
 		"participants": {
 			"description": "The characters or factions involved in the plot.",
 			"type": "array",
-			"items": {
-				"type": "object",
-				"required": [
-					"type",
-					"id"
-				],
-				"properties": {
-
-					"type": {
-						"description": "The type of the participant",
-						"type": "string",
-						"enum": [
-							"character",
-							"faction"
-						]
-					},
-
-					"id": {
-						"description": "The reference identifier of the participant.",
-						"type": "string"
-					},
-
-					"role": {
-						"description": "The role the participant plays in the plot.",
-						"type": "string"
-					}
-
-				}
-			}
+			"items": { "$ref": "#/definitions/participant" }
 		},
 
 		"locations": {
 			"description": "The locations the plot will interact with.",
 			"type": "array",
-			"items": {
-				"type": "object",
-				"required": [
-					"id"
-				],
-				"properties": {
-
-					"id": {
-						"description": "The reference identifier of the location.",
-						"type": "string"
-					},
-
-					"role": {
-						"description": "The role the resource plays in the plot.",
-						"type": "string"
-					}
-
-				}
-			}
+			"items": { "$ref": "#/definitions/location" }
 		},
 
 		"resources": {
 			"description": "The physical resources required for the plot.",
 			"type": "array",
-			"items": {
-				"type": "object",
-				"required": [
-					"type",
-					"id"
-				],
-				"properties": {
-
-					"type": {
-						"description": "The type of the resource.",
-						"type": "string"
-					},
-
-					"id": {
-						"description": "The reference identifier of the resource.",
-						"type": "string"
-					},
-
-					"role": {
-						"description": "The role the resource plays in the plot.",
-						"type": "string"
-					},
-
-					"qty_min": {
-						"description": "Minimum amount of the resource needed to run the plot.",
-						"type": "integer",
-						"minimum": 1,
-						"default": 1
-					},
-
-					"qty_scale": {
-						"description": "How many of the resource will be required per unit of scale (rounding down).",
-						"type": "number",
-						"minimum": 0.0,
-						"default": 0.0
-					}
-
-				}
-			}
+			"items": { "$ref": "#/definitions/resource" }
 		},
 
 		"outcomes": {
 			"description": "The expected ways the plot can end.",
 			"type": "array",
 			"minItems": 1,
-			"items": {
-				"type": "object",
-				"required": [
-					"description",
-					"result"
-				],
-				"properties": {
-
-					"description": {
-						"description": "Description of the outcome.",
-						"type": "string"
-					},
-
-					"result": {
-						"description": "How 'good' the outcome is.",
-						"allOf": [ { "$ref": "./_common.schema.json#/definitions/rating" } ]
-					}
-
-				}
-			}
+			"items": { "$ref": "#/definitions/outcome" }
 		},
 
 		"updates": {
-			"description": "A list of status transitions for this plot.",
-			"type": "array",
-			"items": {
-				"type": "object",
-				"required": [
-					"status",
-					"notes",
-					"time"
-				],
-				"properties": {
+			"items": { "$ref": "#/definitions/update" }
+		}
 
-					"status": {
-						"description": "The status transition occurring.",
-						"type": "string",
-						"default": "proposed",
-						"enum": [
-							"proposed",
-							"writing",
-							"ready",
-							"running",
-							"complete",
-							"cancelled"
-						]
-					},
+	},
+	"definitions": {
 
-					"notes": {
-						"description": "Information describing the update.",
-						"type": "string",
-						"default": ""
-					},
+		"location": {
+			"description": "A reference to a location a plot can interact with.",
+			"allOf": [
+				{ "$ref": "./_common.schema.json#/definitions/referential_with_relevance" }
+			],
+			"properties": {
 
-					"time": {
-						"description": "The time that the update occurred.",
-						"type": "string"
-					}
+				"reference": { "$ref": "./location.schema.json" }
 
+			}
+		},
+
+		"objective": {
+			"description": "An goal description for a plot.",
+			"type": "object",
+			"required": [
+				"description"
+			],
+			"properties": {
+
+				"description": {
+					"description": "A description of the objective.",
+					"type": "string",
+					"minLength": 1
+				},
+
+				"tags": {
+					"description": "A list of topic tags.",
+					"type": "array",
+					"items": { "$ref": "./_common.schema.json#/definitions/tag" }
 				}
+
+			}
+		},
+
+		"outcome": {
+			"description": "A potential outcome of the plot.",
+			"type": "object",
+			"required": [
+				"description",
+				"result"
+			],
+			"properties": {
+
+				"description": {
+					"description": "Description of the outcome.",
+					"type": "string"
+				},
+
+				"result": {
+					"description": "How 'good' the outcome is.",
+					"allOf": [ { "$ref": "./_common.schema.json#/definitions/rating" } ]
+				}
+
+			}
+		},
+
+		"participant": {
+			"description": "A participant in the plot.",
+			"allOf": [
+				{ "$ref": "./_common.schema.json#/definitions/referential_with_relevance" }
+			],
+			"properties": {
+
+				"reference": { "$ref": "./participant.schema.json" },
+
+				"required": {
+					"description": "Whether the participant is required for the plot to function.",
+					"type": "boolean",
+					"default": false
+				}
+
+			}
+		},
+
+		"resource": {
+			"description": "A resource used in the plot.",
+			"allOf": [
+				{ "$ref": "./_common.schema.json#/definitions/referential_with_relevance" }
+			],
+			"properties": {
+
+				"reference": { "$ref": "./resource.schema.json" },
+
+				"qty_min": {
+					"description": "Minimum amount of the resource needed to run the plot.",
+					"type": "integer",
+					"minimum": 1,
+					"default": 1
+				},
+
+				"qty_scale": {
+					"description": "How many of the resource will be required per unit of scale (rounding down).",
+					"type": "number",
+					"minimum": 0.0,
+					"default": 0.0
+				}
+
+			}
+		},
+
+		"update": {
+			"allOf": [
+				{ "$ref": "./_common.schema.json#/definitions/entity_update" }
+			],
+			"properties": {
+
+				"status": {
+					"default": "proposed",
+					"enum": [
+						"proposed",
+						"writing",
+						"ready",
+						"running",
+						"complete",
+						"cancelled"
+					]
+				}
+
 			}
 		}
 

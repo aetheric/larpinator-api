@@ -1,0 +1,8 @@
+{
+	"$id": "https://larpinator.aetheric.co.nz/schema/location.schema.json",
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Location",
+	"allOf": [
+		{ "$ref": "./_common.schema.json#/definitions/entity" }
+	]
+}

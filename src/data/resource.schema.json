@@ -1,0 +1,8 @@
+{
+	"$id": "https://larpinator.aetheric.co.nz/schema/resource.schema.json",
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Resource",
+	"allOf": [
+		{ "$ref": "./_common.schema.json#/definitions/entity" }
+	]
+}
