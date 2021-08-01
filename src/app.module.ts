@@ -6,6 +6,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { GraphQLModule } from "@nestjs/graphql";
+import { join } from "path";
+import {UsersResolver} from "./users/users.resolver";
 
 @Module({
 	imports: [
@@ -15,9 +18,12 @@ import { ConfigModule } from '@nestjs/config';
 		}),
 		UsersModule,
 		AuthModule,
+		GraphQLModule.forRoot({
+			autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+		})
 	],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [AppService, UsersResolver],
 })
 export class AppModule {
 	constructor(private readonly connection: Connection) {}

@@ -1,10 +1,18 @@
 version: "3.1"
+
 services:
+
   mysql:
-    image: mysql:5.7
+    image:          mysql:5.7
     container_name: larp-mysql
-    working_dir: /application
-    command: --general-log=1 --general-log-file=/tmp/my.log
+    working_dir:    /application
+    command:        --general-log=1 --general-log-file=/tmp/my.log
+    environment:
+      MYSQL_DATABASE:      larp
+      MYSQL_USER:          test
+      MYSQL_PASSWORD:      test
+      MYSQL_HOST:          mysql
+      MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysql-data:/var/lib/mysql
     env_file:
@@ -12,5 +20,17 @@ services:
     ports:
       - "3304:3306"
 
+  mongo:
+    image:          mongo
+    container_name: larp-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE:      larpinator
+    volumes:
+      - mongo-data:/data/db
+#      - ./test/data:/docker-entrypoint-initdb.d
+
 volumes:
-  mysql-data:
+  mysql-data: {}
+  mongo-data: {}

@@ -10,7 +10,6 @@ trim_trailing_whitespace = true
 [*.{yml,yaml}]
 indent_style                = space
 indent_size                 = 2
-ij_continuation_indent_size = 4
 
 [*.{md,adoc,asciidoc}]
 trim_trailing_whitespace = false

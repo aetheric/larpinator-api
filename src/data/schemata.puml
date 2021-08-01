@@ -1,0 +1,69 @@
+@startuml
+
+class EntityId extends String
+
+abstract class Entity {
+	EntityId id
+	String name
+}
+
+class Plot extends Entity {
+	Rating priority
+	Rating size
+	Integer timing
+	Rating duration
+	String synopsis
+	List<PlotObjective> objectives
+	List<PlotParticipant> participants
+	List<PlotLocation> locations
+	List<PlotResources> resources
+	List<PlotOutcomes> outcomes
+	List<PlotUpdates> updates
+}
+
+class PlotLocation {
+	Location reference
+	String relevance
+}
+Plot "1" - "0..*" Location
+(Plot, Location) .. PlotLocation
+
+class PlotObjective {
+	String description
+	List<Tag> tags
+}
+Plot "1" - "1..*" PlotObjective
+
+class PlotOutcome {
+	String description
+	Rating result
+}
+Plot "1" - "1..*" PlotOutcome
+
+class PlotParticipant {
+	Participant reference
+	String relevance
+	Boolean required
+}
+Plot "1" - "1..*" Participant
+(Plot, Participant) .. PlotParticipant
+
+class PlotResource {
+	Resource reference
+	String relevance
+}
+Plot "1" - "0..*" Resource
+(Plot, Resource) .. PlotResource
+
+class Resource extends Entity {
+}
+
+class Location extends Entity {
+}
+
+class Participant extends Entity {
+}
+
+class Tag extends String
+
+@enduml
