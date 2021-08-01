@@ -1,44 +1,53 @@
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
+	Entity,
+	Column,
+	PrimaryGeneratedColumn,
+	CreateDateColumn,
+	UpdateDateColumn,
+	DeleteDateColumn,
+	BeforeInsert,
 } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity({ name: 'user' })
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
-  @Column({ name: 'first_name' })
-  firstName: string;
+	@Column({ name: 'first_name' })
+	firstName: string;
 
-  @Column({ name: 'last_name' })
-  lastName: string;
+	@Column({ name: 'last_name' })
+	lastName: string;
 
-  @Column({ unique: true })
-  email: string;
+	@Column({ unique: true })
+	email: string;
 
-  @Column()
-  password: string;
+	@Column({
+		type: 'varchar',
+		nullable: false,
+	})
+	password: string;
 
-  @Column({ name: 'is_active', default: true })
-  isActive: boolean;
+	@BeforeInsert() async hashPassword() {
+		this.password = await bcrypt.hash(this.password, 10);
+	}
 
-  @CreateDateColumn({
-    name: 'created_at',
-  })
-  createdAt: Date;
+	@Column({ name: 'is_active', default: true })
+	isActive: boolean;
 
-  @UpdateDateColumn({
-    name: 'updated_at',
-  })
-  updatedAt: Date;
+	@CreateDateColumn({
+		name: 'created_at',
+	})
+	createdAt: Date;
 
-  @DeleteDateColumn({
-    name: 'deleted_at',
-  })
-  deletedAt: Date;
+	@UpdateDateColumn({
+		name: 'updated_at',
+	})
+	updatedAt: Date;
+
+	@DeleteDateColumn({
+		name: 'deleted_at',
+	})
+	deletedAt: Date;
 }
