@@ -1,0 +1,22 @@
+{
+  "$id": "https://larpinator.aetheric.co.nz/_common.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "definitions": {
+
+    "rating": {
+      "description": "A rating between -2 - +2, with null representing no set priority.",
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": -2,
+          "maximum": 2,
+          "default": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+
+  }
+}
