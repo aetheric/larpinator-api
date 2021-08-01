@@ -6,4 +6,7 @@ export class UserRepository extends Repository<User> {
   findByName(firstName: string, lastName: string) {
     return this.findOne({ firstName, lastName });
   }
+  findByEmail(email: string) {
+    return this.findOne({ where: { email: email } });
+  }
 }
