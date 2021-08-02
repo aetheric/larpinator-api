@@ -8,16 +8,12 @@ import {
 	BeforeInsert,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import {
-	Field,
-	ID, ObjectType,
-} from "@nestjs/graphql";
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 @Entity({ name: 'user' })
 export class User {
-
-	@Field(type => ID)
+	@Field((type) => ID)
 	@PrimaryGeneratedColumn()
 	id: number;
 
@@ -69,5 +65,4 @@ export class User {
 	async comparePassword(candidatePassword: string) {
 		return await bcrypt.compare(candidatePassword, this.password);
 	}
-
 }

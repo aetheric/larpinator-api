@@ -1,11 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './users.repository';
-import { toUserDto } from './users.mappers';
-import { UserDto } from './dto/user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
 import { User } from './entities/user.entity';
+import { LoginInput } from '../auth/dto/login.input';
+import { RegisterInput } from '../auth/dto/register.input';
 
 @Injectable()
 export class UsersService {
@@ -15,20 +12,15 @@ export class UsersService {
 		return `This action returns all users`;
 	}
 
-	update(id: number, updateUserDto: UpdateUserDto) {
-		return `This action updates a #${id} user`;
-	}
-
 	remove(id: number) {
 		return `This action removes a #${id} user`;
 	}
 
-	async findOne(options?: object): Promise<UserDto> {
-		const user = await this.userRepo.findOne(options);
-		return toUserDto(user);
+	async findOne(options?: object): Promise<User> {
+		return await this.userRepo.findOne(options);
 	}
 
-	async findByLogin({ email, password }: LoginUserDto): Promise<UserDto> {
+	async findByLogin({ email, password }: LoginInput): Promise<User> {
 		const user = await this.userRepo.findOne({ where: { email } });
 
 		if (!user) {
@@ -42,17 +34,17 @@ export class UsersService {
 			throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
 		}
 
-		return toUserDto(user);
+		return user;
 	}
 
-	async findByPayload({ email }: any): Promise<UserDto> {
+	async findByPayload({ email }: any): Promise<User> {
 		return await this.findOne({
 			where: { email },
 		});
 	}
 
-	async create(userDto: CreateUserDto): Promise<UserDto> {
-		const { email, password } = userDto;
+	async create(registerInput: RegisterInput): Promise<User> {
+		const { email, password } = registerInput;
 
 		// check if the user exists in the db
 		const userInDb = await this.userRepo.findOne({
@@ -67,6 +59,6 @@ export class UsersService {
 			password,
 		});
 		await this.userRepo.save(user);
-		return toUserDto(user);
+		return user;
 	}
 }

@@ -1,10 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from '../users/dto/create-user.dto';
-import { LoginUserDto } from '../users/dto/login-user.dto';
-import { UserDto } from '../users/dto/user.dto';
-import { JwtPayload, LoginStatus, RegistrationStatus } from './auth.interface';
+import { JwtPayload } from './auth.interface';
+import { RegisterInput } from './dto/register.input';
+import { RegisterStatusDto } from './dto/register-status.dto';
+import { LoginStatusDto } from './dto/login-status.dto';
+import { User } from '../users/entities/user.entity';
+import { LoginInput } from './dto/login.input';
 
 @Injectable()
 export class AuthService {
@@ -13,13 +15,13 @@ export class AuthService {
 		private readonly jwtService: JwtService,
 	) {}
 
-	async register(userDto: CreateUserDto): Promise<RegistrationStatus> {
-		let status: RegistrationStatus = {
+	async register(registerInput: RegisterInput): Promise<RegisterStatusDto> {
+		let status: RegisterStatusDto = {
 			success: true,
 			message: 'user registered',
 		};
 		try {
-			await this.usersService.create(userDto);
+			await this.usersService.create(registerInput);
 		} catch (err) {
 			status = {
 				success: false,
@@ -29,20 +31,20 @@ export class AuthService {
 		return status;
 	}
 
-	async login(loginUserDto: LoginUserDto): Promise<LoginStatus> {
+	async login(loginInput: LoginInput): Promise<LoginStatusDto> {
 		// find user in db
-		const user = await this.usersService.findByLogin(loginUserDto);
+		const user = await this.usersService.findByLogin(loginInput);
 
 		// generate and sign token
 		const token = this._createToken(user);
 
 		return {
-			username: user.email,
+			email: user.email,
 			...token,
 		};
 	}
 
-	private _createToken({ email }: UserDto): any {
+	private _createToken({ email }: User): any {
 		const user: JwtPayload = { email };
 		const accessToken = this.jwtService.sign(user);
 		return {
@@ -51,7 +53,7 @@ export class AuthService {
 		};
 	}
 
-	async validateUser(payload: JwtPayload): Promise<UserDto> {
+	async validateUser(payload: JwtPayload): Promise<User> {
 		const user = await this.usersService.findByPayload(payload);
 		if (!user) {
 			throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
