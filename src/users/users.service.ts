@@ -3,10 +3,14 @@ import { UserRepository } from './users.repository';
 import { User } from './entities/user.entity';
 import { LoginInput } from '../auth/dto/login.input';
 import { RegisterInput } from '../auth/dto/register.input';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
-	constructor(private readonly userRepo: UserRepository) {}
+	constructor(
+		@InjectRepository(User, 'mysql')
+		private readonly userRepo: UserRepository,
+	) {}
 
 	findAll() {
 		return `This action returns all users`;

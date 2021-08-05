@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Connection } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,7 +10,37 @@ import { join } from 'path';
 
 @Module({
 	imports: [
-		TypeOrmModule.forRoot(),
+		TypeOrmModule.forRoot({
+			name: 'mysql',
+			type: 'mysql',
+			host: 'localhost',
+			port: 3304,
+			username: 'test',
+			password: 'test',
+			database: 'larp',
+			entities: ['dist/**/*.entity{.ts,.js}'],
+			synchronize: false,
+			migrations: ['dist/migration/*.js'],
+			cli: {
+				migrationsDir: 'src/migration',
+			},
+		}),
+		TypeOrmModule.forRoot({
+			name: 'mongodb',
+			type: 'mongodb',
+			host: 'localhost',
+			port: 27017,
+			username: 'root',
+			password: 'password',
+			database: 'larpinator',
+			synchronize: false,
+			logging: false,
+			entities: ['data/**/*.ts'],
+			migrations: ['data/migration/**/*.js'],
+			cli: {
+				migrationsDir: 'data/migration',
+			},
+		}),
 		ConfigModule.forRoot({
 			isGlobal: true,
 		}),
@@ -24,6 +53,4 @@ import { join } from 'path';
 	controllers: [AppController],
 	providers: [AppService],
 })
-export class AppModule {
-	constructor(private readonly connection: Connection) {}
-}
+export class AppModule {}

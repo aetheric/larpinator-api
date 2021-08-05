@@ -1,13 +1,20 @@
 import { Controller, Request, Get, Post, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AuthGuard } from '@nestjs/passport';
+import { Plot } from './data/plot';
+import { ConnectionManager, getRepository } from 'typeorm';
 
 @Controller()
 export class AppController {
 	constructor(private readonly appService: AppService) {}
 
 	@Get()
-	getHello(): string {
-		return this.appService.getHello();
+	async getHello(): Promise<Plot> {
+		const repository = getRepository(Plot, 'mongodb');
+
+		const plot = new Plot();
+		plot.synopsis = 'aaa';
+		await repository.save(plot);
+
+		return plot;
 	}
 }
