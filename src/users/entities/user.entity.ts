@@ -11,7 +11,7 @@ import * as bcrypt from 'bcrypt';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-@Entity({ name: 'user' })
+@Entity({ name: 'users' })
 export class User {
 	@Field((type) => ID)
 	@PrimaryGeneratedColumn()
