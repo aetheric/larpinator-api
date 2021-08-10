@@ -18,19 +18,7 @@ services:
     env_file:
       - .env
     ports:
-      - "3304:3306"
-
-  mongo:
-    image:          mongo
-    container_name: larp-mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE:      larpinator
-    volumes:
-      - mongo-data:/data/db
-#      - ./test/data:/docker-entrypoint-initdb.d
+      - '3304:3306'
 
 volumes:
   mysql-data: {}
-  mongo-data: {}
