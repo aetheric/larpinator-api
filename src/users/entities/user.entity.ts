@@ -18,12 +18,8 @@ export class User {
 	id: number;
 
 	@Field()
-	@Column({ name: 'first_name' })
-	firstName: string;
-
-	@Field()
-	@Column({ name: 'last_name' })
-	lastName: string;
+	@Column({ name: 'name' })
+	name: string;
 
 	@Field()
 	@Column({ unique: true })
