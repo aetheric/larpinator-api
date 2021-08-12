@@ -10,10 +10,13 @@ export class UsersResolver {
 	constructor(private readonly usersService: UsersService) {}
 	@UseGuards(GraphqlAuthGuard)
 	@Query((returns) => User)
-	async getUserById(
-		@CurrentUser() user: User,
-		@Args({ name: 'id', type: () => ID }) id: number,
-	) {
+	async getUserById(@Args({ name: 'id', type: () => ID }) id: number) {
+		return await this.usersService.findOne({ where: { id } });
+	}
+
+	@UseGuards(GraphqlAuthGuard)
+	@Query((returns) => User)
+	async getCurrentUser(@CurrentUser() user: User) {
 		return await this.usersService.findOne({ where: { id: user.id } });
 	}
 }
