@@ -8,16 +8,16 @@ import { RegisterInput } from '../auth/dto/register.input';
 export class UsersService {
 	constructor(private readonly userRepo: UserRepository) {}
 
-	findAll() {
-		return `This action returns all users`;
-	}
-
 	remove(id: number) {
 		return `This action removes a #${id} user`;
 	}
 
 	async findOne(options?: object): Promise<User> {
 		return await this.userRepo.findOne(options);
+	}
+
+	async findAll(options?: object): Promise<User[]> {
+		return await this.userRepo.find(options);
 	}
 
 	async findByLogin({ email, password }: LoginInput): Promise<User> {

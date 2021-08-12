@@ -19,4 +19,10 @@ export class UsersResolver {
 	async getCurrentUser(@CurrentUser() user: User) {
 		return await this.usersService.findOne({ where: { id: user.id } });
 	}
+
+	@UseGuards(GraphqlAuthGuard)
+	@Query((returns) => [User])
+	async getAllUsers() {
+		return await this.usersService.findAll();
+	}
 }
