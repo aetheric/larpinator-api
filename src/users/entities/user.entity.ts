@@ -10,6 +10,16 @@ import {
 import * as bcrypt from 'bcrypt';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
+export enum UserRole {
+	ADMIN = 'admin',
+	PLAYER = 'player',
+}
+
+export enum UserGender {
+	MALE = 'male',
+	FEMALE = 'female',
+}
+
 @ObjectType()
 @Entity({ name: 'users' })
 export class User {
@@ -18,12 +28,28 @@ export class User {
 	id: number;
 
 	@Field()
-	@Column({ name: 'name' })
+	@Column()
 	name: string;
 
 	@Field()
 	@Column({ unique: true })
 	email: string;
+
+	@Field()
+	@Column({
+		type: 'enum',
+		enum: UserRole,
+		default: UserRole.PLAYER,
+	})
+	role: UserRole;
+
+	@Field({ nullable: true })
+	@Column({
+		type: 'enum',
+		enum: UserGender,
+		nullable: true,
+	})
+	gender: UserGender;
 
 	@Field()
 	@Column({

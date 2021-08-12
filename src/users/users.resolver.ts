@@ -1,6 +1,6 @@
 import { Query, Resolver, Args, ID } from '@nestjs/graphql';
 import { UsersService } from './users.service';
-import { User } from './entities/user.entity';
+import { User, UserRole } from './entities/user.entity';
 import { GraphqlAuthGuard } from '../auth/graphql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from './users.decorator';
@@ -24,5 +24,13 @@ export class UsersResolver {
 	@Query((returns) => [User])
 	async getAllUsers() {
 		return await this.usersService.findAll();
+	}
+
+	@UseGuards(GraphqlAuthGuard)
+	@Query((returns) => [User])
+	async getAllPlayers() {
+		return await this.usersService.findAll({
+			where: { role: UserRole.PLAYER },
+		});
 	}
 }
