@@ -4,6 +4,8 @@ import { InputType, Field, PartialType } from '@nestjs/graphql';
 @InputType()
 export class UpdateLarpInput extends PartialType(CreateLarpInput) {
 	@Field()
+	readonly id: number;
+	@Field()
 	readonly title: string;
 
 	@Field()

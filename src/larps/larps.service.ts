@@ -3,10 +3,11 @@ import { CreateLarpInput } from './dto/create-larp.input';
 import { UpdateLarpInput } from './dto/update-larp.input';
 import { Larp } from './entities/larp.entity';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class LarpsService {
-	constructor(private readonly larpRepo: Repository<Larp>) {}
+	constructor(@InjectRepository(Larp) private larpRepo: Repository<Larp>) {}
 	async create(createLarpInput: CreateLarpInput): Promise<Larp> {
 		const larp: Larp = await this.larpRepo.create(createLarpInput);
 		await this.larpRepo.save(larp);
