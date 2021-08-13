@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
+import { LarpsModule } from './larps/larps.module';
 
 @Module({
 	imports: [
@@ -20,6 +21,7 @@ import { join } from 'path';
 		GraphQLModule.forRoot({
 			autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
 		}),
+		LarpsModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

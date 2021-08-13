@@ -1,4 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
+import { UserGender } from '../../users/entities/user.entity';
 
 @InputType()
 export class RegisterInput {
@@ -10,4 +11,7 @@ export class RegisterInput {
 
 	@Field()
 	readonly password: string;
+
+	@Field()
+	readonly gender: UserGender;
 }

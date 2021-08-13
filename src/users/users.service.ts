@@ -44,7 +44,7 @@ export class UsersService {
 	}
 
 	async create(registerInput: RegisterInput): Promise<User> {
-		const { name, email, password } = registerInput;
+		const { name, email, password, gender } = registerInput;
 
 		// check if the user exists in the db
 		const userInDb = await this.userRepo.findOne({
@@ -57,6 +57,7 @@ export class UsersService {
 		const user: User = await this.userRepo.create({
 			name,
 			email,
+			gender,
 			password,
 		});
 		await this.userRepo.save(user);
