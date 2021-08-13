@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLarpInput } from './dto/create-larp.input';
 import { UpdateLarpInput } from './dto/update-larp.input';
+import { Larp } from './entities/larp.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class LarpsService {
-  create(createLarpInput: CreateLarpInput) {
-    return 'This action adds a new larp';
-  }
+	constructor(private readonly larpRepo: Repository<Larp>) {}
+	async create(createLarpInput: CreateLarpInput): Promise<Larp> {
+		const larp: Larp = await this.larpRepo.create(createLarpInput);
+		await this.larpRepo.save(larp);
+		return larp;
+	}
 
-  findAll() {
-    return `This action returns all larps`;
-  }
+	async findAll(options?: object): Promise<Larp[]> {
+		return await this.larpRepo.find(options);
+	}
 
-  findOne(id: number) {
-    return `This action returns a #${id} larp`;
-  }
+	async findOne(options?: object): Promise<Larp> {
+		return await this.larpRepo.findOne(options);
+	}
 
-  update(id: number, updateLarpInput: UpdateLarpInput) {
-    return `This action updates a #${id} larp`;
-  }
+	async update(id: number, updateLarpInput: UpdateLarpInput): Promise<Larp> {
+		await this.larpRepo.update(id, updateLarpInput);
+		return await this.larpRepo.findOne({ where: { id } });
+	}
 
-  remove(id: number) {
-    return `This action removes a #${id} larp`;
-  }
+	async remove(id: number): Promise<Larp> {
+		await this.larpRepo.softDelete(id);
+		return await this.larpRepo.findOne({ where: { id } });
+	}
 }

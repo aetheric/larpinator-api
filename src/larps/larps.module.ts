@@ -3,6 +3,7 @@ import { LarpsService } from './larps.service';
 import { LarpsResolver } from './larps.resolver';
 
 @Module({
-  providers: [LarpsResolver, LarpsService]
+	providers: [LarpsResolver, LarpsService],
+	exports: [LarpsResolver, LarpsService],
 })
 export class LarpsModule {}

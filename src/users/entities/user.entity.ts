@@ -25,15 +25,15 @@ export enum UserGender {
 export class User {
 	@Field((type) => ID)
 	@PrimaryGeneratedColumn()
-	id: number;
+	id!: number;
 
 	@Field()
 	@Column()
-	name: string;
+	name!: string;
 
 	@Field()
 	@Column({ unique: true })
-	email: string;
+	email!: string;
 
 	@Field()
 	@Column({
@@ -41,7 +41,7 @@ export class User {
 		enum: UserRole,
 		default: UserRole.PLAYER,
 	})
-	role: UserRole;
+	role!: UserRole;
 
 	@Field({ nullable: true })
 	@Column({
@@ -49,14 +49,14 @@ export class User {
 		enum: UserGender,
 		nullable: true,
 	})
-	gender: UserGender;
+	gender!: UserGender;
 
 	@Field()
 	@Column({
 		type: 'varchar',
 		nullable: false,
 	})
-	password: string;
+	password!: string;
 
 	@BeforeInsert() async hashPassword() {
 		this.password = await bcrypt.hash(this.password, 10);
@@ -64,25 +64,25 @@ export class User {
 
 	@Field()
 	@Column({ name: 'is_active', default: true })
-	isActive: boolean;
+	isActive!: boolean;
 
 	@Field()
 	@CreateDateColumn({
 		name: 'created_at',
 	})
-	createdAt: Date;
+	createdAt!: Date;
 
 	@Field()
 	@UpdateDateColumn({
 		name: 'updated_at',
 	})
-	updatedAt: Date;
+	updatedAt!: Date;
 
 	@Field()
 	@DeleteDateColumn({
 		name: 'deleted_at',
 	})
-	deletedAt: Date;
+	deletedAt?: Date;
 
 	async comparePassword(candidatePassword: string) {
 		return await bcrypt.compare(candidatePassword, this.password);
