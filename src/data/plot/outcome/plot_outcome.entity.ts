@@ -1,13 +1,16 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, ManyToOne } from 'typeorm';
-import { SubDatum } from '../../common';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Ranking, SubDatum } from '../../common';
 import { Plot } from '../plot.entity';
 
+export const table_name = 'plot_outcomes';
+
 @ObjectType()
-@Entity({ name: 'plot_outcomes' })
+@Entity({ name: table_name })
 export class PlotOutcome extends SubDatum<Plot> {
 
 	@ManyToOne(() => Plot, parent => parent.outcomes)
+	@JoinColumn({ name: 'parentId' })
 	parent!: Plot;
 
 	@Field()
@@ -16,6 +19,6 @@ export class PlotOutcome extends SubDatum<Plot> {
 
 	@Field()
 	@Column()
-	result!: number
+	result!: Ranking
 
 }

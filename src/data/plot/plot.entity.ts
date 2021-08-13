@@ -8,8 +8,10 @@ import { PlotParticipant } from './participant/plot_participant.entity';
 import { PlotResource } from './resource/plot_resource.entity';
 import { PlotUpdate } from './update/plot_update.entity';
 
+export const table_name = 'plots';
+
 @ObjectType()
-@Entity({ name: 'plots' })
+@Entity({ name: table_name })
 export class Plot extends Datum<Plot, PlotUpdate, PlotStatus> {
 
 	@Field()
