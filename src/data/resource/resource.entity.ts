@@ -4,8 +4,10 @@ import { ObjectType } from "@nestjs/graphql";
 import { PlotResource } from '../plot/resource/plot_resource.entity';
 import { ResourceUpdate } from './update/resource_update.entity';
 
+export const table_name = 'resources';
+
 @ObjectType()
-@Entity({ name: 'resources' })
+@Entity({ name: table_name })
 export class Resource extends Datum<Resource, ResourceUpdate, ResourceStatus> {
 
 	@OneToMany(() => PlotResource, plotResource => plotResource.owner)
