@@ -4,8 +4,10 @@ import { ObjectType } from "@nestjs/graphql";
 import { PlotLocation } from '../plot/location/plot_location.entity';
 import { LocationUpdate } from './update/location_update.entity';
 
+export const table_name = 'locations';
+
 @ObjectType()
-@Entity({ name: 'locations' })
+@Entity({ name: table_name })
 export class Location extends Datum<Location, LocationUpdate, LocationStatus> {
 
 	@OneToMany(() => PlotLocation, plotLocation => plotLocation.owner)

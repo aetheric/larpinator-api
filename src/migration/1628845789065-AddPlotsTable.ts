@@ -15,6 +15,10 @@ export class AddPlotsTable1628845789065 implements MigrationInterface {
 					generationStrategy: 'increment',
 				},
 				{
+					name: 'name',
+					type: 'varchar',
+				},
+				{
 					name: 'priority',
 					type: 'int',
 				},

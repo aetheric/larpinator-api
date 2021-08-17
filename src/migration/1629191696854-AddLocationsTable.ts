@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-import { table_name } from '../data/resource/resource.entity';
+import { table_name } from '../data/location/location.entity'
 
-export class AddResourcesTable1628927613599 implements MigrationInterface {
+export class AddLocationsTable1629191696854 implements MigrationInterface {
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.createTable(new Table({
@@ -19,7 +19,7 @@ export class AddResourcesTable1628927613599 implements MigrationInterface {
 					type: 'varchar',
 				},
 			]
-		}), true)
+		}), true);
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
