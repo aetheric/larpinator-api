@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
-import { table_name as resource_table_name } from '../data/resource/resource.entity';
-import { table_name } from '../data/resource/update/resource_update.entity';
+import { table_name } from '../data/location/update/location_update.entity';
+import { table_name as location_table_name } from '../data/location/location.entity';
 
-export class AddResourceUpdatesTable1628927977876 implements MigrationInterface {
+export class AddLocationUpdatesTable1629191703990 implements MigrationInterface {
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
 
@@ -24,14 +24,14 @@ export class AddResourceUpdatesTable1628927977876 implements MigrationInterface 
 					name: 'status',
 					type: 'varchar',
 				},
-			]
+			],
 		}), true);
 
 		queryRunner.clearSqlMemory();
 
 		await queryRunner.createForeignKey(table_name, new TableForeignKey({
 			columnNames: [ 'ownerId' ],
-			referencedTableName: resource_table_name,
+			referencedTableName: location_table_name,
 			referencedColumnNames: [ 'id' ],
 			onDelete: 'CASCADE',
 		}));
