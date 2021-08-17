@@ -15,11 +15,6 @@ export enum UserRole {
 	PLAYER = 'player',
 }
 
-export enum UserGender {
-	MALE = 'male',
-	FEMALE = 'female',
-}
-
 @ObjectType()
 @Entity({ name: 'users' })
 export class User {
@@ -42,14 +37,6 @@ export class User {
 		default: UserRole.PLAYER,
 	})
 	role!: UserRole;
-
-	@Field({ nullable: true })
-	@Column({
-		type: 'enum',
-		enum: UserGender,
-		nullable: true,
-	})
-	gender!: UserGender;
 
 	@Field()
 	@Column({
