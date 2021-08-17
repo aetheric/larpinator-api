@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 import { table_name } from '../data/location/update/location_update.entity';
-import { table_name as location_table_name } from '../data/location/location.entity';
+import { table_name as owner_table_name } from '../data/location/location.entity';
 
 export class AddLocationUpdatesTable1629191703990 implements MigrationInterface {
 
@@ -31,7 +31,7 @@ export class AddLocationUpdatesTable1629191703990 implements MigrationInterface 
 
 		await queryRunner.createForeignKey(table_name, new TableForeignKey({
 			columnNames: [ 'ownerId' ],
-			referencedTableName: location_table_name,
+			referencedTableName: owner_table_name,
 			referencedColumnNames: [ 'id' ],
 			onDelete: 'CASCADE',
 		}));

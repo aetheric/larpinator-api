@@ -4,8 +4,10 @@ import { DatumReference } from '../../common';
 import { Participant } from '../../participant/participant.entity';
 import { Plot } from '../plot.entity';
 
+export const table_name = 'plot_participants';
+
 @ObjectType()
-@Entity({ name: 'plot_participants' })
+@Entity({ name: table_name })
 export class PlotParticipant extends DatumReference<Plot, Participant> {
 
 	@ManyToOne(() => Plot, (plot) => plot.plotLocations)

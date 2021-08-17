@@ -1,9 +1,9 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
-import { table_name } from '../data/plot/location/plot_location.entity';
+import { table_name } from '../data/plot/participant/plot_participant.entity';
 import { table_name as owner_table_name } from '../data/plot/plot.entity';
-import { table_name as reference_table_name } from '../data/location/location.entity';
+import { table_name as reference_table_name } from '../data/participant/participant.entity';
 
-export class AddPlotLocationsTable1629191715837 implements MigrationInterface {
+export class AddPlotParticipantsTable1629191748587 implements MigrationInterface {
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
 
@@ -25,6 +25,10 @@ export class AddPlotLocationsTable1629191715837 implements MigrationInterface {
 					name: 'referenceId',
 					type: 'int',
 				},
+				{
+					name: 'required',
+					type: 'bool',
+				}
 			]
 		}), true);
 

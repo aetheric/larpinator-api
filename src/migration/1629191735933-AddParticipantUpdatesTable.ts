@@ -1,9 +1,8 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
-import { table_name } from '../data/plot/location/plot_location.entity';
-import { table_name as owner_table_name } from '../data/plot/plot.entity';
-import { table_name as reference_table_name } from '../data/location/location.entity';
+import { table_name } from '../data/participant/update/participant_update.entity';
+import { table_name as owner_table_name } from '../data/participant/participant.entity';
 
-export class AddPlotLocationsTable1629191715837 implements MigrationInterface {
+export class AddParticipantUpdatesTable1629191735933 implements MigrationInterface {
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
 
@@ -22,10 +21,10 @@ export class AddPlotLocationsTable1629191715837 implements MigrationInterface {
 					type: 'int',
 				},
 				{
-					name: 'referenceId',
-					type: 'int',
+					name: 'status',
+					type: 'varchar',
 				},
-			]
+			],
 		}), true);
 
 		queryRunner.clearSqlMemory();
@@ -33,13 +32,6 @@ export class AddPlotLocationsTable1629191715837 implements MigrationInterface {
 		await queryRunner.createForeignKey(table_name, new TableForeignKey({
 			columnNames: [ 'ownerId' ],
 			referencedTableName: owner_table_name,
-			referencedColumnNames: [ 'id' ],
-			onDelete: 'CASCADE',
-		}));
-
-		await queryRunner.createForeignKey(table_name, new TableForeignKey({
-			columnNames: [ 'referenceId' ],
-			referencedTableName: reference_table_name,
 			referencedColumnNames: [ 'id' ],
 			onDelete: 'CASCADE',
 		}));
